@@ -31,17 +31,10 @@ export const logout = async () => {
       url: '/api/v1/users/logout'
     });
     if ((res.data.status = 'success')) {
-      if (window.location.href == '/me') {
-        showAlert('success', 'Logged out successfully!');
-        window.setTimeout(() => {
-          location.assign('/');
-        }, 1000);
-      } else {
-        showAlert('success', 'Logged out successfully!');
-        window.setTimeout(() => {
-          location.reload(true);
-        }, 1000);
-      }
+      showAlert('success', 'Logged out successfully!');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1000);
     }
   } catch (err) {
     console.log(err.response);
