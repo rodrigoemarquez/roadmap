@@ -19,7 +19,12 @@ router.get(
   viewsController.getSignupForm
 );
 router.get('/me', authController.protect, viewsController.getAccount);
-router.get('/my-tours', authController.protect, viewsController.getMyTours);
+router.get(
+  '/my-tours',
+  // bookingController.createBooking,
+  authController.protect,
+  viewsController.getMyTours
+);
 
 router.post(
   '/submit-user-data',
