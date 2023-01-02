@@ -6,6 +6,8 @@ const factory = require('./handlerFactory');
 const AppError = require('./../utils/appError');
 const Booking = require('./../models/bookingModel');
 
+let session;
+
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) Get the currently booked tour
   const tour = await Tour.findById(req.params.tourId);
@@ -25,7 +27,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     product: product.id
   });
 
-  const session = await stripe.checkout.sessions.create({
+  session = await stripe.checkout.sessions.create({
     customer_email: req.user.email,
     client_reference_id: req.params.tourId,
     line_items: [
@@ -55,10 +57,18 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 //   res.redirect(req.originalUrl.split('?')[0]);
 // };
 
+// exports.createBookingCheckout = async (req, res, next) => {
+//   // This is only temporary because it is UNSECURE, everyone can make booking without paying it
+//   const { tour, user, price } = req.query;
+//   if (!tour && !user && !price) return next();
+//   await Booking.create({ tour, user, price });
+//   res.redirect(req.originalUrl.split('?')[0]);
+// };
+
 const createBookingCheckout = async session => {
   const tour = session.client_reference_id;
   const user = (await User.findOne({ email: session.customer_email })).id;
-  const price = await session.line_items[0].price;
+  const price = session.line_items[0].price;
   await Booking.create({ tour, user, price });
 };
 
