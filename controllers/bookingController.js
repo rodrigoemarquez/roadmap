@@ -83,7 +83,7 @@ exports.webhookCheckout = async (req, res) => {
       process.env.STRIPE_WEBHOOK_SECRET
     );
     if (event.type === 'checkout.session.completed') {
-      createBookingCheckout(event.data.object);
+      await createBookingCheckout(event.data.object);
       res.status(200).json({ received: true });
     }
   } catch (err) {
