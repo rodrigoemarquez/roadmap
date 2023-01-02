@@ -14,7 +14,9 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const product = await stripe.products.create({
     name: tour.name,
     description: tour.summary,
-    images: [`https://www.natours.dev/img/tours/${tour.imageCover}`]
+    images: [
+      `${req.protocol}://${req.get('host')}/img/tours/${tour.imageCover}`
+    ]
   });
 
   const price = await stripe.prices.create({
@@ -47,13 +49,13 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createBookingCheckout = async (req, res, next) => {
-  // This is only temporary because it is UNSECURE, everyone can make booking without paying it
-  const { tour, user, price } = req.query;
-  if (!tour && !user && !price) return next();
-  await Booking.create({ tour, user, price });
-  res.redirect(req.originalUrl.split('?')[0]);
-};
+// exports.createBookingCheckout = async (req, res, next) => {
+//   // This is only temporary because it is UNSECURE, everyone can make booking without paying it
+//   const { tour, user, price } = req.query;
+//   if (!tour && !user && !price) return next();
+//   await Booking.create({ tour, user, price });
+//   res.redirect(req.originalUrl.split('?')[0]);
+// };
 
 const createBookingCheckout = async session => {
   const tour = session.client_reference_id;
