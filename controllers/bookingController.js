@@ -67,7 +67,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
 exports.webhookCheckout = (req, res) => {
   let event;
-  let secret = process.env.STRIPE_WEBHOOK_SECRET;
+  const secret = process.env.STRIPE_SIGNING_SECRET;
   try {
     event = stripe.webhooks.constructEvent(
       req.body,
@@ -75,7 +75,7 @@ exports.webhookCheckout = (req, res) => {
       secret
     );
   } catch (err) {
-    return res.status(400).send(`Webhook error: ${err.message}`);
+    return res.status(400).send(`There was a webhook error: ${err.message}`);
   }
 
   const tour = event.data.object.client_reference_id;
