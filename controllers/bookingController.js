@@ -72,7 +72,7 @@ const createBookingDocument = async event => {
   });
   const userId = user._id;
   const price = event.data.object.amount_total / 100;
-  Booking.create({ tour, userId, price });
+  await Booking.create({ tour, userId, price });
 };
 
 exports.webhookCheckout = (req, res) => {
