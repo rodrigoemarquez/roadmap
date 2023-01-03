@@ -78,11 +78,12 @@ exports.webhookCheckout = (req, res) => {
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
 
+  const tour = event.data.object.client_reference_id;
+  const user = User.findOne({ email: event.data.object.email }).id;
+  const price = event.data.object.amount_total;
+
   switch (event.type) {
     case 'checkout.session.completed':
-      const tour = event.data.object.client_reference_id;
-      const user = User.findOne({ email: event.data.object.email }).id;
-      const price = event.data.object.amount_total;
       Booking.create({ tour, user, price });
       console.log('Checkout session completed');
       break;
