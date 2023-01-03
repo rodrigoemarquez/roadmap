@@ -65,6 +65,13 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 //   res.redirect(req.originalUrl.split('?')[0]);
 // };
 
+const createBookingDocument = async event => {
+  const tour = event.data.object.client_reference_id;
+  const user = User.findOne({ email: event.data.object.email }).id;
+  const price = event.data.object.amount_total;
+  Booking.create({ tour, user, price });
+};
+
 exports.webhookCheckout = (req, res) => {
   let event;
   const secret = process.env.STRIPE_SIGNING_SECRET;
@@ -78,17 +85,8 @@ exports.webhookCheckout = (req, res) => {
     return res.status(400).send(`There was a webhook error: ${err.message}`);
   }
 
-  const tour = event.data.object.client_reference_id;
-  const user = User.findOne({ email: event.data.object.email }).id;
-  const price = event.data.object.amount_total;
-
-  switch (event.type) {
-    case 'checkout.session.completed':
-      Booking.create({ tour, user, price });
-      console.log('Checkout session completed');
-      break;
-    default:
-      console.log(`Unhandled event type ${event.type}`);
+  if (event.type === 'checkout.session.completed') {
+    createBookingDocument();
   }
 
   res.status(200).json({ received: true });
