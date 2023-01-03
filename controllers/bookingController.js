@@ -79,7 +79,7 @@ exports.webhookCheckout = (req, res) => {
   }
 
   if (event.type === 'checkout.session.completed') {
-    const tour = event.data.client_reference_id;
+    const tour = event.data.object.client_reference_id;
     const user = User.findOne({ email: event.data.object.email }).id;
     const price = event.data.object.amount_total;
     Booking.create({ tour, user, price });
