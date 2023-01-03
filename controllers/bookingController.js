@@ -65,7 +65,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 //   res.redirect(req.originalUrl.split('?')[0]);
 // };
 
-exports.webhookCheckout = async (req, res) => {
+exports.webhookCheckout = (req, res) => {
   const signature = req.headers['stripe-signature'];
   let event;
   try {
@@ -82,7 +82,7 @@ exports.webhookCheckout = async (req, res) => {
     const tour = event.data.object.client_reference_id;
     const user = User.findOne({ email: event.data.object.email }).id;
     const price = event.data.object.amount_total;
-    await Booking.create({ tour, user, price });
+    Booking.create({ tour, user, price });
   }
 
   res.status(200).json({ received: true });
