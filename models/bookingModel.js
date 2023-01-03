@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
   tour: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
     ref: 'Tour',
     required: [true, 'Booking must belong a Tour!']
   },
   user: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
     ref: 'User',
     required: [true, 'Booking must belong to an User!']
   },
@@ -24,7 +24,6 @@ const bookingSchema = new mongoose.Schema({
     default: true
   }
 });
-
 
 const Booking = mongoose.model('Booking', bookingSchema);
 
