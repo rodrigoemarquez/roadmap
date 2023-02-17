@@ -173,6 +173,19 @@ body {
   margin: 0 auto;
 }
 
+@media only screen and (max-width: 62.5em) {
+  .heading-primary {
+    font-size: 2rem;
+    text-align: center;
+    width: 90%;
+    margin: 0 auto;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+}
+
 .heading-tertirary {
   font-size: 2.75rem;
   text-align: right;
@@ -323,7 +336,7 @@ body {
   }
 }
 .header__logo img {
-  height: 3.5rem;
+  height: 2rem;
 }
 @media only screen and (max-width: 62.5em) {
   .header__logo {
@@ -440,6 +453,15 @@ body {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 50%;
   flex: 0 0 50%;
+}
+
+@media only screen and (max-width: 62.5em) {
+  .section-description {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .description-box .description {
@@ -681,6 +703,15 @@ body {
   padding-bottom: 11rem;
   padding-top: calc(15rem + var(--section-rotate));
   background-color: #f7f7f7;
+}
+
+@media only screen and (max-width: 62.5em) {
+  .section-cta {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
 }
 
 .cta {
@@ -1073,9 +1104,11 @@ body {
 .card-container {
   max-width: 120rem;
   margin: 0 auto;
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 7rem;
+  justify-content: flex-start;
 }
 
 .card {
@@ -1095,6 +1128,8 @@ body {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
+  flex: 1 1 40%;
+  flex-basis: 300px;
 }
 .card__header {
   position: relative;
@@ -1332,4 +1367,36 @@ body {
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
+}
+
+.form__textarea {
+  display: block;
+  font-family: inherit;
+  font-size: 1.5rem;
+  color: inherit;
+  padding: 1.25rem 1.75rem;
+  border: none;
+  width: 100%;
+  background-color: #fff;
+  background-color: #f2f2f2;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  /* Pseudo element (a visible thing that isn't really in the DOM).
+      Also needs -ms- */
+  height: 100px;
+}
+.form__textarea:focus {
+  outline: none;
+  border-bottom: 3px solid #55c57a;
+}
+.form__textarea:focus:invalid {
+  border-bottom: 3px solid #ff7730;
+}
+.form__textarea::-webkit-input-placeholder {
+  color: #bbb;
 }
