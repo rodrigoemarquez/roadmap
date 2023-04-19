@@ -28,6 +28,12 @@ router.get(
   viewsController.getMyTours
 );
 
+router.get(
+  '/tester',
+  // bookingController.createBooking,
+  viewsController.getFormTester
+);
+
 router.post(
   '/submit-user-data',
   authController.protect,

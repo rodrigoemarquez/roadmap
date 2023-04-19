@@ -314,7 +314,6 @@ body {
 .header {
   background-color: #444;
   padding: 0 5rem;
-  height: 8rem;
   position: relative;
   z-index: 100;
   display: -webkit-box;
@@ -326,7 +325,13 @@ body {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  padding: 20px;
 }
+
+.header > * {
+  padding: 10px;
+}
+
 @media only screen and (max-width: 62.5em) {
   .header {
     -webkit-box-orient: vertical;
